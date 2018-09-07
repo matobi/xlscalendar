@@ -37,6 +37,7 @@ func main() {
 	}
 
 	// create a csv file for each skating group
+	os.MkdirAll("./calendars", os.ModePerm)
 	for i := range schedule.Groups {
 		lines := generateCSV(schedule, i, args.year, args.weekStart, args.weekEnd)
 
@@ -44,7 +45,7 @@ func main() {
 		if args.weekStart != args.weekEnd {
 			weeks = fmt.Sprintf("%dto%d", args.weekStart, args.weekEnd)
 		}
-		filename := fmt.Sprintf("./calendar-%d-%s-%s.csv", args.year, weeks, strings.ToLower(schedule.Groups[i].Display))
+		filename := fmt.Sprintf("./calendars/%d-%s-%s.csv", args.year, weeks, strings.ToLower(schedule.Groups[i].Display))
 
 		if err := ioutil.WriteFile(filename, []byte(strings.Join(lines, "\n")), 0644); err != nil {
 			log.Fatalf("failed to create calendar file; %+v", err)
